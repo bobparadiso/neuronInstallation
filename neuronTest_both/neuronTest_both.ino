@@ -55,7 +55,13 @@ void loop_WS2812()
 
     for (int i = 0, p = pos; i < trailSize && p >=0 && p < NUM_WS2812; i++, p -= dir)
     {
-      int c = map2(i, 0, trailSize - 1, 255, 1);
+      int c;
+
+      if (i <= trailSize/2)
+        c = map2(i, 0, trailSize/2, 1, 255);
+      else
+        c = map2(i, trailSize/2 + 1, trailSize - 1, 255, 1);
+        
       WS2812_strip.setPixelColor(p, c, c, c);
     }
 
@@ -82,7 +88,13 @@ void loop_LPD8806()
 
     for (int i = 0, p = pos; i < trailSize && p >=0 && p < NUM_LPD8806; i++, p -= dir)
     {
-      int c = map2(i, 0, trailSize - 1, 127, 1);
+      int c;
+
+      if (i <= trailSize/2)
+        c = map2(i, 0, trailSize/2, 1, 127);
+      else
+        c = map2(i, trailSize/2 + 1, trailSize - 1, 127, 1);
+        
       LPD8806_strip.setPixelColor(p, c, c, c);
     }
 
