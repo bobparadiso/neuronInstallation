@@ -4,7 +4,7 @@
 #define SIZE_PIN A6
 
 #define WS2812_PIN 2
-#define NUM_WS2812 (60 * 4 * 6)
+#define NUM_WS2812 (60 * 4) // * 6)
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = pin number (most are valid)
@@ -18,7 +18,7 @@ Adafruit_NeoPixel WS2812_strip = Adafruit_NeoPixel(NUM_WS2812, WS2812_PIN, NEO_G
 int trailSize = 7;
 
 void setup() {
-  Serial.begin(9600);
+//  Serial.begin(9600);
 
   WS2812_strip.begin();
   
@@ -39,7 +39,7 @@ void loop_WS2812()
 
     for(int i=0; i<NUM_WS2812; i++)
     {
-      //WS2812_strip.setPixelColor(i, 0);
+      WS2812_strip.setPixelColor(i, 0);
     }
 
     for (int i = 0, p = pos; i < trailSize && p >=0 && p < NUM_WS2812; i++, p -= dir)
