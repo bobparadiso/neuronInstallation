@@ -10,7 +10,7 @@
 #include "util.h"
 
 //
-void runActivity2(strip_t *s, float elapsed)
+static void update0(strip_t *s, float elapsed)
 {
 	activity2_t *trail = (activity2_t *)s->data;
 
@@ -26,18 +26,44 @@ void runActivity2(strip_t *s, float elapsed)
 	//apply speed
 	trail->pos += (float)trail->dir * trail->speed * elapsed;
 
-	//bounce
+	//bounce(after delay)
 	if (trail->dir == 1 && trail->pos >= s->length)
 	{
 		trail->dir = -1;
 		trail->pos = s->length;
+		trail->clock = 0.0f;
+		trail->state++;
 	}
 
-	//bounce
+	//bounce(after delay)
 	if (trail->dir == -1 && trail->pos <= 0)
 	{
 		trail->dir = 1;
 		trail->pos = 0;
+		trail->clock = 0.0f;
+		trail->state++;
+	}
+}
+
+//
+static void update1(strip_t *s, float elapsed)
+{
+	activity2_t *activity = (activity2_t *)s->data;
+
+	activity->clock += elapsed;
+	if (activity->clock >= activity->coolDown)
+		activity->state = 0;
+}
+
+//
+void runActivity2(strip_t *s, float elapsed)
+{
+	activity2_t *activity = (activity2_t *)s->data;
+
+	switch(activity->state)
+	{
+		case 0: update0(s, elapsed); break;
+		case 1: update1(s, elapsed); break;
 	}
 }
 

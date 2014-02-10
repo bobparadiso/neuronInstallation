@@ -65,16 +65,17 @@ extern "C" int main(void)
 		.pos = 0.0f,
 		.size = 30,
 		.dir = 1,
-		.speed = 50.0f
+		.speed = 50.0f,
+		.coolDown = 1.0f,
+		.clock = 0.0f,
+		.state = 0,
 	});
 
-	setupActivity3(&strips[1], (activity3_t){
+	setupActivity1(&strips[1], (activity1_t){
 		.pos = 0.0f,
-		.size = 10,
+		.size = 20,
+		.dir = 1,
 		.speed = 30.0f,
-		.coolDown = 15.0f,
-		.clock = 0.0f,
-		.state = 0
 	});
 
 	setupActivity1(&strips[2], (activity1_t){
@@ -102,7 +103,7 @@ extern "C" int main(void)
 		.pos = 0.0f,
 		.size = 10,
 		.dir = 1,
-		.speed = 140.0f,
+		.speed = 10.0f,
 		.c1 = {1.0f, 1.0f, 1.0f},
 		.c2 = {1.0f, 0.0f, 0.0f},
 		.c3 = {1.0f, 0.9f, 0.0f},
