@@ -67,8 +67,6 @@ extern "C" int main(void)
 		.dir = 1,
 		.speed = 50.0f,
 		.coolDown = 1.0f,
-		.clock = 0.0f,
-		.state = 0,
 	});
 
 	setupActivity1(&strips[1], (activity1_t){
@@ -76,27 +74,31 @@ extern "C" int main(void)
 		.size = 20,
 		.dir = 1,
 		.speed = 30.0f,
+		.coolDown = 1.0f,
 	});
 
 	setupActivity1(&strips[2], (activity1_t){
 		.pos = 0.0f,
 		.size = 10,
 		.dir = 1,
-		.speed = 50.0f
+		.speed = 50.0f,
+		.coolDown = 1.0f,
 	});
 
 	setupActivity1(&strips[3], (activity1_t){
 		.pos = 0.0f,
 		.size = 25,
 		.dir = 1,
-		.speed = 50.0f
+		.speed = 50.0f,
+		.coolDown = 1.0f,
 	});
 
 	setupActivity1(&strips[4], (activity1_t){
 		.pos = 0.0f,
 		.size = 10,
 		.dir = 1,
-		.speed = 50.0f
+		.speed = 50.0f,
+		.coolDown = 1.0f,
 	});
 
 	setupActivity5(&strips[5], (activity5_t){
@@ -110,7 +112,6 @@ extern "C" int main(void)
 		.colorT = 0.0f,
 		.colorPos1 = 225,
 		.colorVel2 = 1.0f,
-		.state = 0
 	});
 	
 	setupActivity5(&strips[6], (activity5_t){
@@ -124,14 +125,14 @@ extern "C" int main(void)
 		.colorT = 0.0f,
 		.colorPos1 = 160,
 		.colorVel2 = 1.0f,
-		.state = 0
 	});
 
 	setupActivity2(&strips[7], (activity2_t){
 		.pos = 0.0f,
 		.size = 20,
 		.dir = 1,
-		.speed = 50.0f
+		.speed = 50.0f,
+		.coolDown = 1.0f,
 	});
 
 	//strip lengths

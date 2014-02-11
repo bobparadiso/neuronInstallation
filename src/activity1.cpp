@@ -10,40 +10,69 @@
 #include "util.h"
 
 //
-void runActivity1(strip_t *s, float elapsed)
+void update0(strip_t *s, float elapsed)
 {
 	activity1_t *trail = (activity1_t *)s->data;
 
 	//grab integer position
 	int pos = trail->pos, i, p;
 
-	for (i = 0, p = pos; i < trail->size && p >=0 && p < s->length; i++, p -= trail->dir)
+	for (i = 0, p = pos; i < trail->size; i++, p -= trail->dir)
 	{
-		uint8_t c;
+		if (p >=0 && p < s->length)
+		{
+			uint8_t c;
 
-		if (i <= trail->size/2)
-			c = map(i, 0, trail->size/2, 1, FULL_BRIGHT);
-		else
-			c = map(i, trail->size/2 + 1, trail->size - 1, FULL_BRIGHT, 1);
+			if (i <= trail->size/2)
+				c = map(i, 0, trail->size/2, 1, FULL_BRIGHT);
+			else
+				c = map(i, trail->size/2 + 1, trail->size - 1, FULL_BRIGHT, 1);
 
-		setPixel(s->pixels + p, c, c, c);
+			setPixel(s->pixels + p, c, c, c);
+		}
 	}
 
 	//apply speed
 	trail->pos += (float)trail->dir * trail->speed * elapsed;
 
-	//bounce
-	if (trail->dir == 1 && trail->pos >= s->length)
+	//bounce(after delay)
+	if (trail->dir == 1 && trail->pos >= s->length + trail->size)
 	{
 		trail->dir = -1;
 		trail->pos = s->length;
+		trail->clock = 0.0f;
+		trail->state++;
 	}
 
-	//bounce
-	if (trail->dir == -1 && trail->pos <= 0)
+	//bounce(after delay)
+	if (trail->dir == -1 && trail->pos <= -trail->size)
 	{
 		trail->dir = 1;
 		trail->pos = 0;
+		trail->clock = 0.0f;
+		trail->state++;
+	}
+}
+
+//
+static void update1(strip_t *s, float elapsed)
+{
+	activity1_t *activity = (activity1_t *)s->data;
+
+	activity->clock += elapsed;
+	if (activity->clock >= activity->coolDown)
+		activity->state = 0;
+}
+
+//
+void runActivity1(strip_t *s, float elapsed)
+{
+	activity1_t *activity = (activity1_t *)s->data;
+
+	switch(activity->state)
+	{
+		case 0: update0(s, elapsed); break;
+		case 1: update1(s, elapsed); break;
 	}
 }
 
