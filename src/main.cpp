@@ -59,6 +59,16 @@ extern "C" int main(void)
 		};
 	}
 
+	//strip lengths
+	strips[0].length = 448;
+	strips[1].length = 240;
+	strips[2].length = 643;
+	strips[3].length = 421;
+	strips[4].length = 348;
+  	strips[5].length = 330;
+  	strips[6].length = 240;
+	strips[7].length = 448;
+
 	//set activities
 
 	setupActivity2(&strips[0], (activity2_t){
@@ -85,19 +95,24 @@ extern "C" int main(void)
 		.coolDown = 1.0f,
 	});
 
-	setupActivity1(&strips[3], (activity1_t){
+	setupActivity5(&strips[3], (activity5_t){
 		.pos = 0.0f,
 		.size = 25,
 		.dir = 1,
-		.speed = 50.0f,
-		.coolDown = 1.0f,
+		.speed = 10.0f,
+		.c1 = colorFromHex(0xffffff),
+		.c2 = colorFromHex(0xf7e411),
+		.c3 = colorFromHex(0xf7e411),
+		.colorT = 0.0f,
+		.colorPos1 = strips[3].length - 1,
+		.colorVel2 = 1.0f,
 	});
 
 	setupActivity1(&strips[4], (activity1_t){
 		.pos = 0.0f,
-		.size = 10,
+		.size = 15,
 		.dir = 1,
-		.speed = 50.0f,
+		.speed = 40.0f,
 		.coolDown = 1.0f,
 	});
 
@@ -134,16 +149,6 @@ extern "C" int main(void)
 		.speed = 50.0f,
 		.coolDown = 1.0f,
 	});
-
-	//strip lengths
-	strips[0].length = 448;
-	strips[1].length = 240;
-	strips[2].length = 643;
-	strips[3].length = 421;
-	strips[4].length = 348;
-  	strips[5].length = 330;
-  	strips[6].length = 240;
-	strips[7].length = 448;
 
 	pinMode(STATUS_LED, OUTPUT);
 	bool stat = true;	

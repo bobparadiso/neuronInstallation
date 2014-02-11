@@ -23,9 +23,9 @@ float lerp(float a, float b, float t)
 colorF_t colorFromHex(int hex)
 {
 	colorF_t retval;
-	retval.r = (float)(hex & 0x000000ff) / 255.0f;
+	retval.r = (float)((hex & 0x00ff0000) >> 16) / 255.0f;
 	retval.g = (float)((hex & 0x0000ff00) >> 8) / 255.0f;
-	retval.b = (float)((hex & 0x00ff0000) >> 16) / 255.0f;
+	retval.b = (float)(hex & 0x000000ff) / 255.0f;
 	
 	return retval;
 }
