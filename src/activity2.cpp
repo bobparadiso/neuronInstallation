@@ -17,17 +17,20 @@ static void update0(strip_t *s, float elapsed)
 	//grab integer position
 	int pos = trail->pos, i, p;
 
-	for (i = 0, p = pos; i < trail->size && p >=0 && p < s->length; i++, p -= trail->dir)
+	for (i = 0, p = pos; i < trail->size; i++, p -= trail->dir)
 	{
-		uint8_t c = map(i, 0, trail->size - 1, FULL_BRIGHT, 1);
-		setPixel(s->pixels + p, c, c, c);
+		if (p >=0 && p < s->length)
+		{
+			uint8_t c = map(i, 0, trail->size - 1, FULL_BRIGHT, 1);
+			setPixel(s->pixels + p, c, c, c);
+		}
 	}
 
 	//apply speed
 	trail->pos += (float)trail->dir * trail->speed * elapsed;
 
 	//bounce(after delay)
-	if (trail->dir == 1 && trail->pos >= s->length)
+	if (trail->dir == 1 && trail->pos >= s->length + trail->size)
 	{
 		trail->dir = -1;
 		trail->pos = s->length;
@@ -36,7 +39,7 @@ static void update0(strip_t *s, float elapsed)
 	}
 
 	//bounce(after delay)
-	if (trail->dir == -1 && trail->pos <= 0)
+	if (trail->dir == -1 && trail->pos <= -trail->size)
 	{
 		trail->dir = 1;
 		trail->pos = 0;
