@@ -45,3 +45,9 @@ void setPixel(uint32_t num, uint8_t red, uint8_t green, uint8_t blue)
 {
 	leds.setPixel(num, red, green, blue);
 }
+
+//
+int getRandom(int l, int h)
+{
+	return l + rand() % (h - l);
+}

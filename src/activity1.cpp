@@ -10,6 +10,16 @@
 #include "util.h"
 
 //
+void randomize(activity1_t *activity)
+{
+	int sizes[] = {1, 3, 5, 10, 20, 50};
+	activity->size = sizes[rand() % 6];
+	
+	int speeds[] = {10, 20, 30, 60, 100, 200};
+	activity->speed = speeds[rand() % 6];
+}
+
+//
 void update0(strip_t *s, float elapsed)
 {
 	activity1_t *trail = (activity1_t *)s->data;
@@ -23,10 +33,10 @@ void update0(strip_t *s, float elapsed)
 		{
 			uint8_t c;
 
-			if (i <= trail->size/2)
+			if (i < trail->size/2)
 				c = map(i, 0, trail->size/2, 1, FULL_BRIGHT);
 			else
-				c = map(i, trail->size/2 + 1, trail->size - 1, FULL_BRIGHT, 1);
+				c = map(i, trail->size/2, trail->size - 1, FULL_BRIGHT, 1);
 
 			setPixel(s->pixels + p, c, c, c);
 		}
@@ -61,7 +71,10 @@ static void update1(strip_t *s, float elapsed)
 
 	activity->clock += elapsed;
 	if (activity->clock >= activity->coolDown)
+	{
 		activity->state = 0;
+		randomize(activity);
+	}
 }
 
 //
