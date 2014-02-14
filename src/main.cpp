@@ -44,6 +44,13 @@ OctoWS2811 leds(LONGEST_STRIP, displayMemory, drawingMemory, config);
 
 extern "C" int main(void)
 {
+	activity1_t *activity1;
+	activity2_t *activity2;
+	activity3_t *activity3;
+	activity5_t *activity5;
+
+	//Serial.begin(115200);
+	
 	leds.begin();
 	
 	//strips
@@ -95,18 +102,16 @@ extern "C" int main(void)
 		.coolDown = 1.0f,
 	});
 
-	setupActivity5(&strips[3], (activity5_t){
-		.pos = 0.0f,
-		.size = 25,
-		.dir = 1,
-		.speed = 10.0f,
-		.c1 = colorFromHex(0xffffff),
-		.c2 = colorFromHex(0xf7e411),
-		.c3 = colorFromHex(0xf7e411),
-		.colorT = 0.0f,
-		.colorPos1 = strips[3].length - 1,
-		.colorVel2 = 1.0f,
-	});
+	activity5 = (activity5_t *)malloc(sizeof(activity5_t));
+	activity5->size = 25;
+	activity5->startVel = 15.0f;
+	activity5->endVel = 15.0f;
+	activity5->c1 = colorFromHex(0xffffff);
+	activity5->c2 = colorFromHex(0xf7e411);
+	activity5->c3 = colorFromHex(0xf7e411);
+	activity5->colorPos1 = strips[3].length - 1;
+	activity5->colorVel2 = 1.0f;
+	setupActivity5(&strips[3], activity5);
 
 	setupActivity1(&strips[4], (activity1_t){
 		.pos = 0.0f,
@@ -116,31 +121,27 @@ extern "C" int main(void)
 		.coolDown = 1.0f,
 	});
 
-	setupActivity5(&strips[5], (activity5_t){
-		.pos = 0.0f,
-		.size = 10,
-		.dir = 1,
-		.speed = 10.0f,
-		.c1 = colorFromHex(0xffffff),
-		.c2 = colorFromHex(0xff0000),
-		.c3 = colorFromHex(0xffe600),
-		.colorT = 0.0f,
-		.colorPos1 = 225,
-		.colorVel2 = 1.0f,
-	});
+	activity5 = (activity5_t *)malloc(sizeof(activity5_t));
+	activity5->size = 10;
+	activity5->startVel = 40.0f;
+	activity5->endVel = 6.0f;
+	activity5->c1 = colorFromHex(0xffffff);
+	activity5->c2 = colorFromHex(0xff0000);
+	activity5->c3 = colorFromHex(0x080000);
+	activity5->colorPos1 = 225;
+	activity5->colorVel2 = 0.20f;
+	setupActivity5(&strips[5], activity5);
 	
-	setupActivity5(&strips[6], (activity5_t){
-		.pos = 0.0f,
-		.size = 10,
-		.dir = 1,
-		.speed = 10.0f,
-		.c1 = colorFromHex(0xffffff),
-		.c2 = colorFromHex(0x0000ff),
-		.c3 = colorFromHex(0x00e6ff),
-		.colorT = 0.0f,
-		.colorPos1 = 160,
-		.colorVel2 = 1.0f,
-	});
+	activity5 = (activity5_t *)malloc(sizeof(activity5_t));
+	activity5->size = 10;
+	activity5->startVel = 15.0f;
+	activity5->endVel = 15.0f;
+	activity5->c1 = colorFromHex(0xffffff);
+	activity5->c2 = colorFromHex(0x0000ff);
+	activity5->c3 = colorFromHex(0x00e6ff);
+	activity5->colorPos1 = 160;
+	activity5->colorVel2 = 1.0f;
+	setupActivity5(&strips[6], activity5);
 
 	setupActivity2(&strips[7], (activity2_t){
 		.pos = 0.0f,

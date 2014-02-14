@@ -6,17 +6,24 @@
 
 typedef struct
 {
-	float pos;
+	//config
 	int size;
-	int dir;
-	float speed;
+	float startVel;
+	float endVel;
 	colorF_t c1, c2, c3;
-	float colorT;
 	int colorPos1;
 	float colorVel2;
+
+	//state
+	float pos;
+	int dir;
+	float vel;
+	float acc;
+	float colorT;
 	int state;
+	
 } activity5_t;
 
-void setupActivity5(strip_t *s, activity5_t data);
+void setupActivity5(strip_t *s, activity5_t *data);
 
 #endif

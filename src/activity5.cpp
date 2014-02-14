@@ -28,8 +28,12 @@ static void update0(strip_t *s, float elapsed)
 		setPixel(s->pixels + p, (float)c * color.r, (float)c * color.g, (float)c * color.b);
 	}
 
-	//apply speed
-	trail->pos += (float)trail->dir * trail->speed * elapsed;
+	//apply vel and acc
+	float averageVel = trail->vel + trail->acc * elapsed * 0.5f;
+	trail->vel += trail->acc * elapsed;
+	if (trail->vel <= 0.0f)
+		trail->vel = 0.01f;
+	trail->pos += (float)trail->dir * averageVel * elapsed;
 
 	//done
 	if (trail->pos > trail->colorPos1)
@@ -37,6 +41,16 @@ static void update0(strip_t *s, float elapsed)
 		trail->colorT = 0.0f;
 		trail->state++;
 	}
+}
+
+//
+static void reset(activity5_t *activity)
+{
+	activity->dir = 1;
+	activity->pos = 0;
+	activity->vel = activity->startVel;
+	activity->colorT = 0.0f;
+	activity->state = 0;
 }
 
 //
@@ -63,10 +77,7 @@ static void update1(strip_t *s, float elapsed)
 	//done
 	if (trail->colorT == 1.0f)
 	{
-		trail->dir = 1;
-		trail->pos = 0;
-		trail->colorT = 0.0f;
-		trail->state = 0;
+		reset(trail);
 	}
 }
 
@@ -84,9 +95,14 @@ void runActivity5(strip_t *s, float elapsed)
 }
 
 //
-void setupActivity5(strip_t *s, activity5_t data)
+void setupActivity5(strip_t *s, activity5_t *data)
 {
 	s->update = runActivity5;
-	s->data = malloc(sizeof(activity5_t));
-	memcpy(s->data, &data, sizeof(activity5_t));
+	s->data = data;
+	
+	//T = 2P / (Vi + Vf)
+	//A = (Vf - Vi) * (Vi + Vf) / 2P
+	data->acc = (data->endVel - data->startVel) * (data->startVel + data->endVel) / (2.0f * (float)data->colorPos1);
+	
+	reset(data);
 }

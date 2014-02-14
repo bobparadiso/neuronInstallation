@@ -9,14 +9,19 @@
 #include "strip.h"
 #include "util.h"
 
+#include <Arduino.h>
+
 //
 void randomize(activity1_t *activity)
 {
 	int sizes[] = {1, 3, 5, 10, 20, 50};
-	activity->size = sizes[rand() % 6];
+	activity->size = sizes[rand() % COUNT_OF(sizes)];
 	
-	int speeds[] = {10, 20, 30, 60, 100, 200};
-	activity->speed = speeds[rand() % 6];
+	int speeds[] = {15, 30, 60, 100, 200};
+	activity->speed = speeds[rand() % COUNT_OF(speeds)];
+	
+	//Serial.print("speed:");
+	//Serial.println(activity->speed);
 }
 
 //
@@ -73,7 +78,8 @@ static void update1(strip_t *s, float elapsed)
 	if (activity->clock >= activity->coolDown)
 	{
 		activity->state = 0;
-		randomize(activity);
+		if (s->index == 1)
+			randomize(activity);
 	}
 }
 

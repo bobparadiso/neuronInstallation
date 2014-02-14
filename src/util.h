@@ -4,6 +4,8 @@
 #ifndef _util_h_
 #define _util_h_
 
+#define COUNT_OF(x) ((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
+
 typedef struct
 {
   float r, g, b;
