@@ -29,7 +29,6 @@
 #include "activity2.h"
 #include "activity3.h"
 #include "activity5.h"
-#include "activityDebug.h"
 
 #define BUF_SIZE (LONGEST_STRIP*24)
 
@@ -44,25 +43,24 @@ OctoWS2811 leds(LONGEST_STRIP, displayMemory, drawingMemory, config);
 
 extern "C" int main(void)
 {
-	activity1_t *activity1;
-	activity2_t *activity2;
-	activity3_t *activity3;
-	activity5_t *activity5;
+	Activity1 *a1;
+	Activity2 *a2;
+	Activity3 *a3;
+	Activity5 *a5;
 
 	//Serial.begin(115200);
 	
 	leds.begin();
 	
 	//strips
-	strip_t strips[NUM_STRIPS];
+	Strip strips[NUM_STRIPS];
 	for (int i = 0; i < NUM_STRIPS; i++)
 	{
-		strips[i] = (strip_t){
-			.update = NULL,
+		strips[i] = (Strip){
+			.activity = NULL,
 			.length = 0,
 			.index = i,
 			.pixels = i * LONGEST_STRIP,
-			.data = NULL
 		};
 	}
 
@@ -78,68 +76,68 @@ extern "C" int main(void)
 
 	//set activities
 
-	activity2 = (activity2_t *)malloc(sizeof(activity2_t));
-	activity2->size = 30;
-	activity2->speed = 50.0f;
-	activity2->coolDown = 1.0f;
-	setupActivity2(&strips[0], activity2);	
+	a2 = new Activity2();
+	a2->size = 30;
+	a2->speed = 50.0f;
+	a2->coolDown = 1.0f;
+	setActivity(&strips[0], a2);	
 
-	activity1 = (activity1_t *)malloc(sizeof(activity1_t));
-	activity1->size = 20;
-	activity1->speed = 30.0f;
-	activity1->coolDown = 1.0f;
-	setupActivity1(&strips[1], activity1);
+	a1 = new Activity1();
+	a1->size = 20;
+	a1->speed = 30.0f;
+	a1->coolDown = 1.0f;
+	setActivity(&strips[1], a1);
 
-	activity1 = (activity1_t *)malloc(sizeof(activity1_t));
-	activity1->size = 10;
-	activity1->speed = 50.0f;
-	activity1->coolDown = 1.0f;
-	setupActivity1(&strips[2], activity1);
+	a1 = new Activity1();
+	a1->size = 10;
+	a1->speed = 50.0f;
+	a1->coolDown = 1.0f;
+	setActivity(&strips[2], a1);
 
-	activity5 = (activity5_t *)malloc(sizeof(activity5_t));
-	activity5->size = 25;
-	activity5->startVel = 15.0f;
-	activity5->endVel = 15.0f;
-	activity5->c1 = colorFromHex(0xffffff);
-	activity5->c2 = colorFromHex(0xf7e411);
-	activity5->c3 = colorFromHex(0xf7e411);
-	activity5->colorPos1 = strips[3].length - 1;
-	activity5->colorVel2 = 1.0f;
-	setupActivity5(&strips[3], activity5);
+	a5 = new Activity5();
+	a5->size = 25;
+	a5->startVel = 15.0f;
+	a5->endVel = 15.0f;
+	a5->c1 = colorFromHex(0xffffff);
+	a5->c2 = colorFromHex(0xf7e411);
+	a5->c3 = colorFromHex(0xf7e411);
+	a5->colorPos1 = strips[3].length - 1;
+	a5->colorVel2 = 1.0f;
+	setActivity(&strips[3], a5);
 
-	activity1 = (activity1_t *)malloc(sizeof(activity1_t));
-	activity1->size = 15;
-	activity1->speed = 40.0f;
-	activity1->coolDown = 1.0f;
-	setupActivity1(&strips[4], activity1);
+	a1 = new Activity1();
+	a1->size = 15;
+	a1->speed = 40.0f;
+	a1->coolDown = 1.0f;
+	setActivity(&strips[4], a1);
 
-	activity5 = (activity5_t *)malloc(sizeof(activity5_t));
-	activity5->size = 10;
-	activity5->startVel = 40.0f;
-	activity5->endVel = 6.0f;
-	activity5->c1 = colorFromHex(0xffffff);
-	activity5->c2 = colorFromHex(0xff0000);
-	activity5->c3 = colorFromHex(0x080000);
-	activity5->colorPos1 = 225;
-	activity5->colorVel2 = 0.20f;
-	setupActivity5(&strips[5], activity5);
+	a5 = new Activity5();
+	a5->size = 10;
+	a5->startVel = 40.0f;
+	a5->endVel = 6.0f;
+	a5->c1 = colorFromHex(0xffffff);
+	a5->c2 = colorFromHex(0xff0000);
+	a5->c3 = colorFromHex(0x080000);
+	a5->colorPos1 = 225;
+	a5->colorVel2 = 0.20f;
+	setActivity(&strips[5], a5);
 	
-	activity5 = (activity5_t *)malloc(sizeof(activity5_t));
-	activity5->size = 10;
-	activity5->startVel = 20.0f;
-	activity5->endVel = 20.0f;
-	activity5->c1 = colorFromHex(0xffffff);
-	activity5->c2 = colorFromHex(0xFCA708);
-	activity5->c3 = colorFromHex(0xFCA708);
-	activity5->colorPos1 = 160;
-	activity5->colorVel2 = 1.0f;
-	setupActivity5(&strips[6], activity5);
+	a5 = new Activity5();
+	a5->size = 10;
+	a5->startVel = 20.0f;
+	a5->endVel = 20.0f;
+	a5->c1 = colorFromHex(0xffffff);
+	a5->c2 = colorFromHex(0xFCA708);
+	a5->c3 = colorFromHex(0xFCA708);
+	a5->colorPos1 = 160;
+	a5->colorVel2 = 1.0f;
+	setActivity(&strips[6], a5);
 
-	activity2 = (activity2_t *)malloc(sizeof(activity2_t));
-	activity2->size = 20;
-	activity2->speed = 50.0f;
-	activity2->coolDown = 1.0f;
-	setupActivity2(&strips[7], activity2);
+	a2 = new Activity2();
+	a2->size = 20;
+	a2->speed = 50.0f;
+	a2->coolDown = 1.0f;
+	setActivity(&strips[7], a2);
 
 	pinMode(STATUS_LED, OUTPUT);
 	bool stat = true;	
@@ -161,8 +159,8 @@ extern "C" int main(void)
 		memset(drawingMemory, 0, BUF_SIZE);
 
 		for (int t = 0; t < NUM_STRIPS; t++)
-			if (strips[t].update)
-				strips[t].update(&strips[t], elapsed);
+			if (strips[t].activity)
+				strips[t].activity->update(elapsed);
 
 		leds.show();
 	}

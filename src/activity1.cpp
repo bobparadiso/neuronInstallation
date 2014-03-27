@@ -12,103 +12,87 @@
 #include <Arduino.h>
 
 //
-void randomize(activity1_t *activity)
+void Activity1::randomize()
 {
 	int sizes[] = {5, 10, 20, 50};
-	activity->size = sizes[rand() % COUNT_OF(sizes)];
+	size = sizes[rand() % COUNT_OF(sizes)];
 	
 	int speeds[] = {15, 30, 60, 100};
-	activity->speed = speeds[rand() % COUNT_OF(speeds)];
+	speed = speeds[rand() % COUNT_OF(speeds)];
 	
 	//Serial.print("speed:");
-	//Serial.println(activity->speed);
+	//Serial.println(speed);
 }
 
 //
-void update0(strip_t *s, float elapsed)
+void Activity1::reset()
 {
-	activity1_t *trail = (activity1_t *)s->data;
+	pos = 0;
+	dir = 1;
+	state = 0;
+	clock = 0.0f;
+}
 
-	//grab integer position
-	int pos = trail->pos, i, p;
-
-	for (i = 0, p = pos; i < trail->size; i++, p -= trail->dir)
+//
+void Activity1::update(float elapsed)
+{
+	switch(state)
 	{
-		if (p >=0 && p < s->length)
+		case 0: update0(elapsed); break;
+		case 1: update1(elapsed); break;
+	}
+}
+
+//
+void Activity1::update0(float elapsed)
+{
+	int i, p;
+
+	for (i = 0, p = pos; i < size; i++, p -= dir)
+	{
+		if (p >=0 && p < strip->length)
 		{
 			uint8_t c;
 
-			if (i < trail->size/2)
-				c = map(i, 0, trail->size/2, 1, FULL_BRIGHT);
+			if (i < size/2)
+				c = map(i, 0, size/2, 1, FULL_BRIGHT);
 			else
-				c = map(i, trail->size/2, trail->size - 1, FULL_BRIGHT, 1);
+				c = map(i, size/2, size - 1, FULL_BRIGHT, 1);
 
-			setPixel(s->pixels + p, c, c, c);
+			setPixel(strip->pixels + p, c, c, c);
 		}
 	}
 
 	//apply speed
-	trail->pos += (float)trail->dir * trail->speed * elapsed;
+	pos += (float)dir * speed * elapsed;
 
 	//bounce(after delay)
-	if (trail->dir == 1 && trail->pos >= s->length + trail->size)
+	if (dir == 1 && pos >= strip->length + size)
 	{
-		trail->dir = -1;
-		trail->pos = s->length;
-		trail->clock = 0.0f;
-		trail->state++;
+		dir = -1;
+		pos = strip->length;
+		clock = 0.0f;
+		state++;
 	}
 
 	//bounce(after delay)
-	if (trail->dir == -1 && trail->pos <= -trail->size)
+	if (dir == -1 && pos <= -size)
 	{
-		trail->dir = 1;
-		trail->pos = 0;
-		trail->clock = 0.0f;
-		trail->state++;
+		dir = 1;
+		pos = 0;
+		clock = 0.0f;
+		state++;
 	}
 }
 
 //
-static void update1(strip_t *s, float elapsed)
+void Activity1::update1(float elapsed)
 {
-	activity1_t *activity = (activity1_t *)s->data;
-
-	activity->clock += elapsed;
-	if (activity->clock >= activity->coolDown)
+	clock += elapsed;
+	if (clock >= coolDown)
 	{
-		activity->state = 0;
-		//if (s->index == 1)
-		randomize(activity);
+		state = 0;
+		//if (strip->index == 1)
+		randomize();
 	}
-}
-
-//
-void runActivity1(strip_t *s, float elapsed)
-{
-	activity1_t *activity = (activity1_t *)s->data;
-
-	switch(activity->state)
-	{
-		case 0: update0(s, elapsed); break;
-		case 1: update1(s, elapsed); break;
-	}
-}
-
-//
-static void reset(activity1_t *activity)
-{
-	activity->pos = 0;
-	activity->dir = 1;
-	activity->state = 0;
-	activity->clock = 0.0f;
-}
-
-//
-void setupActivity1(strip_t *s, activity1_t *data)
-{
-	s->update = runActivity1;
-	s->data = data;
-
-	reset(data);
 }

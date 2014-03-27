@@ -10,85 +10,67 @@
 #include "util.h"
 
 //
-static void update0(strip_t *s, float elapsed)
+void Activity3::reset()
 {
-	activity3_t *activity = (activity3_t *)s->data;
+	pos = 0;
+	state = 0;
+	clock = 0.0f;
+}
 
-	//grab integer position
-	int pos = activity->pos;
+//
+void Activity3::update(float elapsed)
+{
+	switch(state)
+	{
+		case 0: update0(elapsed); break;
+		case 1: update1(elapsed); break;
+	}
+}
 
+//
+void Activity3::update0(float elapsed)
+{
 	int head = pos;
-	int body = head - activity->size;
-	int bodySize = s->length - (activity->size * 2);
+	int body = head - size;
+	int bodySize = strip->length - (size * 2);
 	int tail = body - bodySize;
-	int black = tail - activity->size;
+	int black = tail - size;
 
 	int i;
-	for (i = 0; i < s->length; i++)
+	for (i = 0; i < strip->length; i++)
 	{
 		uint8_t c;
 
 		if (i > head)
 			c = 0;//ahead of head, so black
 		else if (i > body)
-			c = map(i - body, 0, activity->size, FULL_BRIGHT, 1);//fade from start of body to start of head
+			c = map(i - body, 0, size, FULL_BRIGHT, 1);//fade from start of body to start of head
 		else if (i > tail)
 			c = FULL_BRIGHT;//body is full bright
 		else if (i > black)
-			c = map(i - black, 0, activity->size, 1, FULL_BRIGHT);//fade from body to tip of tail
+			c = map(i - black, 0, size, 1, FULL_BRIGHT);//fade from body to tip of tail
 		else
 			c = 0;
 
-		setPixel(s->pixels + i, c, c, c);
+		setPixel(strip->pixels + i, c, c, c);
 	}
 
 	//apply speed
-	activity->pos += activity->speed * elapsed;
+	pos += speed * elapsed;
 
 	//go to wait
-	if (activity->pos >= s->length * 2)
+	if (pos >= strip->length * 2)
 	{
-		activity->pos = 0;
-		activity->clock = 0.0f;
-		activity->state++;
+		pos = 0;
+		clock = 0.0f;
+		state++;
 	}
 }
 
 //
-static void update1(strip_t *s, float elapsed)
+void Activity3::update1(float elapsed)
 {
-	activity3_t *activity = (activity3_t *)s->data;
-
-	activity->clock += elapsed;
-	if (activity->clock >= activity->coolDown)
-		activity->state = 0;
-}
-
-//
-void runActivity3(strip_t *s, float elapsed)
-{
-	activity3_t *activity = (activity3_t *)s->data;
-
-	switch(activity->state)
-	{
-		case 0: update0(s, elapsed); break;
-		case 1: update1(s, elapsed); break;
-	}
-}
-
-//
-static void reset(activity3_t *activity)
-{
-	activity->pos = 0;
-	activity->state = 0;
-	activity->clock = 0.0f;
-}
-
-//
-void setupActivity3(strip_t *s, activity3_t *data)
-{
-	s->update = runActivity3;
-	s->data = data;
-
-	reset(data);
+	clock += elapsed;
+	if (clock >= coolDown)
+		state = 0;
 }

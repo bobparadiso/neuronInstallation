@@ -1,10 +1,11 @@
 #ifndef _activity1_h_
 #define _activity1_h_
 
-#include "strip.h"
+#include "activity.h"
 
-typedef struct
+class Activity1 : public Activity
 {
+public:
 	float pos;
 	int size;
 	int dir;
@@ -12,8 +13,12 @@ typedef struct
 	float coolDown;
 	float clock;
 	int state;
-} activity1_t;
 
-void setupActivity1(strip_t *s, activity1_t *data);
+	virtual void reset();
+	virtual void update(float elapsed);
+	void randomize();
+	void update0(float elapsed);
+	void update1(float elapsed);
+};
 
 #endif

@@ -1,11 +1,12 @@
 #ifndef _activity5_h_
 #define _activity5_h_
 
-#include "strip.h"
+#include "activity.h"
 #include "util.h"
 
-typedef struct
+class Activity5 : public Activity
 {
+public:
 	//config
 	int size;
 	float startVel;
@@ -22,8 +23,11 @@ typedef struct
 	float colorT;
 	int state;
 	
-} activity5_t;
-
-void setupActivity5(strip_t *s, activity5_t *data);
+	virtual void init();
+	virtual void reset();
+	virtual void update(float elapsed);
+	void update0(float elapsed);
+	void update1(float elapsed);
+};
 
 #endif

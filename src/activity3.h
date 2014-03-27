@@ -1,18 +1,22 @@
 #ifndef _activity3_h_
 #define _activity3_h_
 
-#include "strip.h"
+#include "activity.h"
 
-typedef struct
+class Activity3 : public Activity
 {
+public:
 	float pos;
 	int size;
 	float speed;
 	float coolDown;
 	float clock;
 	int state;
-} activity3_t;
 
-void setupActivity3(strip_t *s, activity3_t *data);
+	virtual void reset();
+	virtual void update(float elapsed);
+	void update0(float elapsed);
+	void update1(float elapsed);
+};
 
 #endif

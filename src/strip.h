@@ -1,13 +1,17 @@
 #ifndef _strip_h_
 #define _strip_h_
 
-typedef struct strip
+class Activity;
+
+class Strip
 {
-	void (*update)(struct strip *s, float elapsed);
+public:
+	Activity *activity;
 	int length;
 	int index;
 	int pixels; //pixel offset
-	void *data;
-} strip_t;
+};
+
+void setActivity(Strip *s, Activity *a);
 
 #endif

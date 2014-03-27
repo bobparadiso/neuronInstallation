@@ -9,81 +9,80 @@
 #include "strip.h"
 #include "util.h"
 
+#include <Arduino.h>
+
 //
-static void update0(strip_t *s, float elapsed)
+void Activity2::reset()
 {
-	activity2_t *trail = (activity2_t *)s->data;
+	pos = 0;
+	dir = 1;
+	state = 0;
+	clock = 0.0f;
+}
 
-	//grab integer position
-	int pos = trail->pos, i, p;
-
-	for (i = 0, p = pos; i < trail->size; i++, p -= trail->dir)
+//
+void Activity2::update(float elapsed)
+{
+	switch(state)
 	{
-		if (p >=0 && p < s->length)
+		case 0: update0(elapsed); break;
+		case 1: update1(elapsed); break;
+	}
+}
+
+//
+void Activity2::update0(float elapsed)
+{
+	int i, p;
+
+	for (i = 0, p = pos; i < size; i++, p -= dir)
+	{
+		if (p >=0 && p < strip->length)
 		{
-			uint8_t c = map(i, 0, trail->size - 1, FULL_BRIGHT, 1);
-			setPixel(s->pixels + p, c, c, c);
+			uint8_t c = map(i, 0, size - 1, FULL_BRIGHT, 1);
+			setPixel(strip->pixels + p, c, c, c);
 		}
 	}
 
 	//apply speed
-	trail->pos += (float)trail->dir * trail->speed * elapsed;
+	pos += (float)dir * speed * elapsed;
+
+	/*
+	Serial.print("strip:");
+	Serial.print(strip->index);
+	Serial.print("  pos:");
+	Serial.print(pos);
+	Serial.print("  elapsed:");
+	Serial.print(elapsed);
+	Serial.print("  dir:");
+	Serial.print(dir);
+	Serial.print("  speed:");
+	Serial.println(speed);
+	*/
 
 	//bounce(after delay)
-	if (trail->dir == 1 && trail->pos >= s->length + trail->size)
+	if (dir == 1 && pos >= strip->length + size)
 	{
-		trail->dir = -1;
-		trail->pos = s->length;
-		trail->clock = 0.0f;
-		trail->state++;
+		dir = -1;
+		pos = strip->length;
+		clock = 0.0f;
+		state++;
 	}
 
 	//bounce(after delay)
-	if (trail->dir == -1 && trail->pos <= -trail->size)
+	if (dir == -1 && pos <= -size)
 	{
-		trail->dir = 1;
-		trail->pos = 0;
-		trail->clock = 0.0f;
-		trail->state++;
+		dir = 1;
+		pos = 0;
+		clock = 0.0f;
+		state++;
 	}
 }
 
 //
-static void update1(strip_t *s, float elapsed)
+void Activity2::update1(float elapsed)
 {
-	activity2_t *activity = (activity2_t *)s->data;
-
-	activity->clock += elapsed;
-	if (activity->clock >= activity->coolDown)
-		activity->state = 0;
-}
-
-//
-void runActivity2(strip_t *s, float elapsed)
-{
-	activity2_t *activity = (activity2_t *)s->data;
-
-	switch(activity->state)
-	{
-		case 0: update0(s, elapsed); break;
-		case 1: update1(s, elapsed); break;
-	}
-}
-
-//
-static void reset(activity2_t *activity)
-{
-	activity->pos = 0;
-	activity->dir = 1;
-	activity->state = 0;
-	activity->clock = 0.0f;
-}
-
-//
-void setupActivity2(strip_t *s, activity2_t *data)
-{
-	s->update = runActivity2;
-	s->data = data;
-	
-	reset(data);
+	clock += elapsed;
+	if (clock >= coolDown)
+		state = 0;
 }
