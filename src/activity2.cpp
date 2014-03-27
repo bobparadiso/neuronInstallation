@@ -71,9 +71,19 @@ void runActivity2(strip_t *s, float elapsed)
 }
 
 //
-void setupActivity2(strip_t *s, activity2_t data)
+static void reset(activity2_t *activity)
+{
+	activity->pos = 0;
+	activity->dir = 1;
+	activity->state = 0;
+	activity->clock = 0.0f;
+}
+
+//
+void setupActivity2(strip_t *s, activity2_t *data)
 {
 	s->update = runActivity2;
-	s->data = malloc(sizeof(activity2_t));
-	memcpy(s->data, &data, sizeof(activity2_t));
+	s->data = data;
+	
+	reset(data);
 }

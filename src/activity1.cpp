@@ -14,10 +14,10 @@
 //
 void randomize(activity1_t *activity)
 {
-	int sizes[] = {1, 3, 5, 10, 20, 50};
+	int sizes[] = {5, 10, 20, 50};
 	activity->size = sizes[rand() % COUNT_OF(sizes)];
 	
-	int speeds[] = {15, 30, 60, 100, 200};
+	int speeds[] = {15, 30, 60, 100};
 	activity->speed = speeds[rand() % COUNT_OF(speeds)];
 	
 	//Serial.print("speed:");
@@ -78,8 +78,8 @@ static void update1(strip_t *s, float elapsed)
 	if (activity->clock >= activity->coolDown)
 	{
 		activity->state = 0;
-		if (s->index == 1)
-			randomize(activity);
+		//if (s->index == 1)
+		randomize(activity);
 	}
 }
 
@@ -96,9 +96,19 @@ void runActivity1(strip_t *s, float elapsed)
 }
 
 //
-void setupActivity1(strip_t *s, activity1_t data)
+static void reset(activity1_t *activity)
+{
+	activity->pos = 0;
+	activity->dir = 1;
+	activity->state = 0;
+	activity->clock = 0.0f;
+}
+
+//
+void setupActivity1(strip_t *s, activity1_t *data)
 {
 	s->update = runActivity1;
-	s->data = malloc(sizeof(activity1_t));
-	memcpy(s->data, &data, sizeof(activity1_t));
+	s->data = data;
+
+	reset(data);
 }

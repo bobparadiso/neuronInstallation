@@ -77,9 +77,18 @@ void runActivity3(strip_t *s, float elapsed)
 }
 
 //
-void setupActivity3(strip_t *s, activity3_t data)
+static void reset(activity3_t *activity)
+{
+	activity->pos = 0;
+	activity->state = 0;
+	activity->clock = 0.0f;
+}
+
+//
+void setupActivity3(strip_t *s, activity3_t *data)
 {
 	s->update = runActivity3;
-	s->data = malloc(sizeof(activity3_t));
-	memcpy(s->data, &data, sizeof(activity3_t));
+	s->data = data;
+
+	reset(data);
 }

@@ -78,29 +78,23 @@ extern "C" int main(void)
 
 	//set activities
 
-	setupActivity2(&strips[0], (activity2_t){
-		.pos = 0.0f,
-		.size = 30,
-		.dir = 1,
-		.speed = 50.0f,
-		.coolDown = 1.0f,
-	});
+	activity2 = (activity2_t *)malloc(sizeof(activity2_t));
+	activity2->size = 30;
+	activity2->speed = 50.0f;
+	activity2->coolDown = 1.0f;
+	setupActivity2(&strips[0], activity2);	
 
-	setupActivity1(&strips[1], (activity1_t){
-		.pos = 0.0f,
-		.size = 20,
-		.dir = 1,
-		.speed = 30.0f,
-		.coolDown = 1.0f,
-	});
+	activity1 = (activity1_t *)malloc(sizeof(activity1_t));
+	activity1->size = 20;
+	activity1->speed = 30.0f;
+	activity1->coolDown = 1.0f;
+	setupActivity1(&strips[1], activity1);
 
-	setupActivity1(&strips[2], (activity1_t){
-		.pos = 0.0f,
-		.size = 10,
-		.dir = 1,
-		.speed = 50.0f,
-		.coolDown = 1.0f,
-	});
+	activity1 = (activity1_t *)malloc(sizeof(activity1_t));
+	activity1->size = 10;
+	activity1->speed = 50.0f;
+	activity1->coolDown = 1.0f;
+	setupActivity1(&strips[2], activity1);
 
 	activity5 = (activity5_t *)malloc(sizeof(activity5_t));
 	activity5->size = 25;
@@ -113,13 +107,11 @@ extern "C" int main(void)
 	activity5->colorVel2 = 1.0f;
 	setupActivity5(&strips[3], activity5);
 
-	setupActivity1(&strips[4], (activity1_t){
-		.pos = 0.0f,
-		.size = 15,
-		.dir = 1,
-		.speed = 40.0f,
-		.coolDown = 1.0f,
-	});
+	activity1 = (activity1_t *)malloc(sizeof(activity1_t));
+	activity1->size = 15;
+	activity1->speed = 40.0f;
+	activity1->coolDown = 1.0f;
+	setupActivity1(&strips[4], activity1);
 
 	activity5 = (activity5_t *)malloc(sizeof(activity5_t));
 	activity5->size = 10;
@@ -134,22 +126,20 @@ extern "C" int main(void)
 	
 	activity5 = (activity5_t *)malloc(sizeof(activity5_t));
 	activity5->size = 10;
-	activity5->startVel = 15.0f;
-	activity5->endVel = 15.0f;
+	activity5->startVel = 20.0f;
+	activity5->endVel = 20.0f;
 	activity5->c1 = colorFromHex(0xffffff);
-	activity5->c2 = colorFromHex(0x0000ff);
-	activity5->c3 = colorFromHex(0x00e6ff);
+	activity5->c2 = colorFromHex(0xFCA708);
+	activity5->c3 = colorFromHex(0xFCA708);
 	activity5->colorPos1 = 160;
 	activity5->colorVel2 = 1.0f;
 	setupActivity5(&strips[6], activity5);
 
-	setupActivity2(&strips[7], (activity2_t){
-		.pos = 0.0f,
-		.size = 20,
-		.dir = 1,
-		.speed = 50.0f,
-		.coolDown = 1.0f,
-	});
+	activity2 = (activity2_t *)malloc(sizeof(activity2_t));
+	activity2->size = 20;
+	activity2->speed = 50.0f;
+	activity2->coolDown = 1.0f;
+	setupActivity2(&strips[7], activity2);
 
 	pinMode(STATUS_LED, OUTPUT);
 	bool stat = true;	

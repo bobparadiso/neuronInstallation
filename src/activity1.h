@@ -14,6 +14,6 @@ typedef struct
 	int state;
 } activity1_t;
 
-void setupActivity1(strip_t *s, activity1_t data);
+void setupActivity1(strip_t *s, activity1_t *data);
 
 #endif

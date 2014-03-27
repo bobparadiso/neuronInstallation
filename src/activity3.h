@@ -13,6 +13,6 @@ typedef struct
 	int state;
 } activity3_t;
 
-void setupActivity3(strip_t *s, activity3_t data);
+void setupActivity3(strip_t *s, activity3_t *data);
 
 #endif
