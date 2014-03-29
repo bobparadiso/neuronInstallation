@@ -77,37 +77,32 @@ extern "C" int main(void)
 	//set activities
 
 	a2 = new Activity2();
-	a2->size = 30;
-	a2->speed = 50.0f;
+	a2->sizes = (const int[]){30, 35, 40, 0};
+	a2->speeds = (const int[]){50, 60, 70, 0};
 	a2->coolDown = 1.0f;
 	setActivity(&strips[0], a2);	
 
 	a1 = new Activity1();
-	a1->size = 20;
-	a1->speed = 30.0f;
+	a1->sizes = (const int[]){5, 10, 20, 50, 0};
+	a1->speeds = (const int[]){15, 30, 60, 100, 0};
 	a1->coolDown = 1.0f;
 	setActivity(&strips[1], a1);
 
 	a1 = new Activity1();
-	a1->size = 10;
-	a1->speed = 50.0f;
+	a1->sizes = (const int[]){5, 10, 20, 50, 0};
+	a1->speeds = (const int[]){15, 30, 60, 100, 0};
 	a1->coolDown = 1.0f;
 	setActivity(&strips[2], a1);
 
-	a5 = new Activity5();
-	a5->size = 25;
-	a5->startVel = 15.0f;
-	a5->endVel = 15.0f;
-	a5->c1 = colorFromHex(0xffffff);
-	a5->c2 = colorFromHex(0xf7e411);
-	a5->c3 = colorFromHex(0xf7e411);
-	a5->colorPos1 = strips[3].length - 1;
-	a5->colorVel2 = 1.0f;
-	setActivity(&strips[3], a5);
+	a1 = new Activity1();
+	a1->sizes = (const int[]){5, 10, 20, 50, 0};
+	a1->speeds = (const int[]){15, 30, 60, 100, 0};
+	a1->coolDown = 1.0f;
+	setActivity(&strips[3], a1);
 
 	a1 = new Activity1();
-	a1->size = 15;
-	a1->speed = 40.0f;
+	a1->sizes = (const int[]){5, 10, 20, 50, 0};
+	a1->speeds = (const int[]){15, 30, 60, 100, 0};
 	a1->coolDown = 1.0f;
 	setActivity(&strips[4], a1);
 
@@ -118,24 +113,19 @@ extern "C" int main(void)
 	a5->c1 = colorFromHex(0xffffff);
 	a5->c2 = colorFromHex(0xff0000);
 	a5->c3 = colorFromHex(0x080000);
-	a5->colorPos1 = 225;
+	a5->colorPos1 = 300;
 	a5->colorVel2 = 0.20f;
 	setActivity(&strips[5], a5);
 	
-	a5 = new Activity5();
-	a5->size = 10;
-	a5->startVel = 20.0f;
-	a5->endVel = 20.0f;
-	a5->c1 = colorFromHex(0xffffff);
-	a5->c2 = colorFromHex(0xFCA708);
-	a5->c3 = colorFromHex(0xFCA708);
-	a5->colorPos1 = 160;
-	a5->colorVel2 = 1.0f;
-	setActivity(&strips[6], a5);
+	a1 = new Activity1();
+	a1->sizes = (const int[]){5, 10, 20, 30, 50, 0};
+	a1->speeds = (const int[]){15, 30, 60, 100, 130, 150, 0};
+	a1->coolDown = 1.0f;
+	setActivity(&strips[6], a1);
 
 	a2 = new Activity2();
-	a2->size = 20;
-	a2->speed = 50.0f;
+	a2->sizes = (const int[]){20, 35, 0};
+	a2->speeds = (const int[]){40, 50, 60, 0};
 	a2->coolDown = 1.0f;
 	setActivity(&strips[7], a2);
 

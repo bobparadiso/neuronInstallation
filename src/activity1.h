@@ -7,13 +7,16 @@ class Activity1 : public Activity
 {
 public:
 	float pos;
+	const int *sizes;
+	const int *speeds;
 	int size;
-	int dir;
 	float speed;
+	int dir;
 	float coolDown;
 	float clock;
 	int state;
 
+	virtual void init();
 	virtual void reset();
 	virtual void update(float elapsed);
 	void randomize();

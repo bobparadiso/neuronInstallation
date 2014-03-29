@@ -12,13 +12,17 @@
 #include <Arduino.h>
 
 //
+void Activity1::init()
+{
+	Activity::init();
+	randomize();
+}
+
+//
 void Activity1::randomize()
 {
-	int sizes[] = {5, 10, 20, 50};
-	size = sizes[rand() % COUNT_OF(sizes)];
-	
-	int speeds[] = {15, 30, 60, 100};
-	speed = speeds[rand() % COUNT_OF(speeds)];
+	size = getRandom(sizes);
+	speed = getRandom(speeds);
 	
 	//Serial.print("speed:");
 	//Serial.println(speed);
@@ -92,7 +96,6 @@ void Activity1::update1(float elapsed)
 	if (clock >= coolDown)
 	{
 		state = 0;
-		//if (strip->index == 1)
 		randomize();
 	}
 }

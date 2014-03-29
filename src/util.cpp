@@ -51,3 +51,12 @@ int getRandom(int l, int h)
 {
 	return l + rand() % (h - l);
 }
+
+//
+int getRandom(const int *list)
+{
+	int count = -1;
+	while (list[++count] != 0);
+	
+	return list[rand() % count];
+}

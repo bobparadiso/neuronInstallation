@@ -12,6 +12,23 @@
 #include <Arduino.h>
 
 //
+void Activity2::init()
+{
+	Activity::init();
+	randomize();
+}
+
+//
+void Activity2::randomize()
+{
+	size = getRandom(sizes);
+	speed = getRandom(speeds);
+	
+	//Serial.print("speed:");
+	//Serial.println(speed);
+}
+
+//
 void Activity2::reset()
 {
 	pos = 0;
@@ -84,5 +101,8 @@ void Activity2::update1(float elapsed)
 {
 	clock += elapsed;
 	if (clock >= coolDown)
+	{
 		state = 0;
+		randomize();
+	}
 }
