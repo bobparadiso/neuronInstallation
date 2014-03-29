@@ -3,15 +3,21 @@
 
 class Activity;
 
+#define MAX_ACTIVITIES 10
+
 class Strip
 {
 public:
-	Activity *activity;
+	Activity *activities[MAX_ACTIVITIES];
+	int currentActivity;
 	int length;
 	int index;
 	int pixels; //pixel offset
+	
+	Strip();
+	void addActivity(Activity *a);
+	Activity *getActivity();
+	void onActivityFinish();
 };
-
-void setActivity(Strip *s, Activity *a);
 
 #endif

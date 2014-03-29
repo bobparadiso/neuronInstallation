@@ -104,5 +104,7 @@ void Activity2::update1(float elapsed)
 	{
 		state = 0;
 		randomize();
+		if (dir == 1)
+			strip->onActivityFinish();
 	}
 }

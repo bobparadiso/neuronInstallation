@@ -89,5 +89,6 @@ void Activity5::update1(float elapsed)
 	if (colorT == 1.0f)
 	{
 		reset();
+		strip->onActivityFinish();
 	}
 }

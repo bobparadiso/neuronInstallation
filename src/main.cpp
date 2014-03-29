@@ -27,7 +27,6 @@
 
 #include "activity1.h"
 #include "activity2.h"
-#include "activity3.h"
 #include "activity5.h"
 
 #define BUF_SIZE (LONGEST_STRIP*24)
@@ -45,7 +44,6 @@ extern "C" int main(void)
 {
 	Activity1 *a1;
 	Activity2 *a2;
-	Activity3 *a3;
 	Activity5 *a5;
 
 	//Serial.begin(115200);
@@ -56,12 +54,8 @@ extern "C" int main(void)
 	Strip strips[NUM_STRIPS];
 	for (int i = 0; i < NUM_STRIPS; i++)
 	{
-		strips[i] = (Strip){
-			.activity = NULL,
-			.length = 0,
-			.index = i,
-			.pixels = i * LONGEST_STRIP,
-		};
+		strips[i].index = i;
+		strips[i].pixels = i * LONGEST_STRIP;
 	}
 
 	//strip lengths
@@ -76,36 +70,50 @@ extern "C" int main(void)
 
 	//set activities
 
+	//strip 0
 	a2 = new Activity2();
 	a2->sizes = (const int[]){30, 35, 40, 0};
 	a2->speeds = (const int[]){50, 60, 70, 0};
 	a2->coolDown = 1.0f;
-	setActivity(&strips[0], a2);	
+	strips[0].addActivity(a2);
 
+	//strip 1
 	a1 = new Activity1();
 	a1->sizes = (const int[]){5, 10, 20, 50, 0};
 	a1->speeds = (const int[]){15, 30, 60, 100, 0};
 	a1->coolDown = 1.0f;
-	setActivity(&strips[1], a1);
+	strips[1].addActivity(a1);
 
+	//strip 2
 	a1 = new Activity1();
 	a1->sizes = (const int[]){5, 10, 20, 50, 0};
 	a1->speeds = (const int[]){15, 30, 60, 100, 0};
 	a1->coolDown = 1.0f;
-	setActivity(&strips[2], a1);
+	strips[2].addActivity(a1);
 
+	//strip 3
 	a1 = new Activity1();
 	a1->sizes = (const int[]){5, 10, 20, 50, 0};
 	a1->speeds = (const int[]){15, 30, 60, 100, 0};
 	a1->coolDown = 1.0f;
-	setActivity(&strips[3], a1);
+	strips[3].addActivity(a1);
 
+	//strip 4
 	a1 = new Activity1();
 	a1->sizes = (const int[]){5, 10, 20, 50, 0};
 	a1->speeds = (const int[]){15, 30, 60, 100, 0};
 	a1->coolDown = 1.0f;
-	setActivity(&strips[4], a1);
+	strips[4].addActivity(a1);
 
+	//strip 5
+	for (int i = 0; i < 3; i++)
+	{
+		a1 = new Activity1();
+		a1->sizes = (const int[]){5, 10, 20, 50, 0};
+		a1->speeds = (const int[]){15, 30, 60, 100, 0};
+		a1->coolDown = 1.0f;
+		strips[5].addActivity(a1);
+	}
 	a5 = new Activity5();
 	a5->size = 10;
 	a5->startVel = 40.0f;
@@ -115,19 +123,21 @@ extern "C" int main(void)
 	a5->c3 = colorFromHex(0x080000);
 	a5->colorPos1 = 300;
 	a5->colorVel2 = 0.20f;
-	setActivity(&strips[5], a5);
+	strips[5].addActivity(a5);
 	
+	//strip 6
 	a1 = new Activity1();
 	a1->sizes = (const int[]){5, 10, 20, 30, 50, 0};
 	a1->speeds = (const int[]){15, 30, 60, 100, 130, 150, 0};
 	a1->coolDown = 1.0f;
-	setActivity(&strips[6], a1);
+	strips[6].addActivity(a1);
 
+	//strip 7
 	a2 = new Activity2();
 	a2->sizes = (const int[]){20, 35, 0};
 	a2->speeds = (const int[]){40, 50, 60, 0};
 	a2->coolDown = 1.0f;
-	setActivity(&strips[7], a2);
+	strips[7].addActivity(a2);
 
 	pinMode(STATUS_LED, OUTPUT);
 	bool stat = true;	
@@ -149,8 +159,8 @@ extern "C" int main(void)
 		memset(drawingMemory, 0, BUF_SIZE);
 
 		for (int t = 0; t < NUM_STRIPS; t++)
-			if (strips[t].activity)
-				strips[t].activity->update(elapsed);
+			if (strips[t].getActivity())
+				strips[t].getActivity()->update(elapsed);
 
 		leds.show();
 	}
