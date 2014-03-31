@@ -127,7 +127,7 @@ extern "C" int main(void)
 	
 	//strip 6
 	a1 = new Activity1();
-	a1->sizes = (const int[]){5, 10, 20, 30, 50, 0};
+	a1->sizes = (const int[]){5, 10, 25, 0};
 	a1->speeds = (const int[]){15, 30, 60, 100, 130, 150, 0};
 	a1->coolDown = 1.0f;
 	strips[6].addActivity(a1);
