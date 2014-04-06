@@ -86,14 +86,14 @@ extern "C" int main(void)
 
 	//strip 2
 	a1 = new Activity1();
-	a1->sizes = (const int[]){5, 10, 20, 50, 0};
+	a1->sizes = (const int[]){5, 10, 20, 40, 0};
 	a1->speeds = (const int[]){15, 30, 60, 100, 0};
 	a1->coolDown = 1.0f;
 	strips[2].addActivity(a1);
 
 	//strip 3
 	a1 = new Activity1();
-	a1->sizes = (const int[]){5, 10, 20, 50, 0};
+	a1->sizes = (const int[]){5, 10, 20, 40, 0};
 	a1->speeds = (const int[]){15, 30, 60, 100, 0};
 	a1->coolDown = 1.0f;
 	strips[3].addActivity(a1);
@@ -106,13 +106,25 @@ extern "C" int main(void)
 	strips[4].addActivity(a1);
 
 	//strip 5
-	for (int i = 0; i < 3; i++)
+	a5 = new Activity5();
+	a5->size = 10;
+	a5->startVel = 40.0f;
+	a5->endVel = 6.0f;
+	a5->c1 = colorFromHex(0xffffff);
+	a5->c2 = colorFromHex(0xff0000);
+	a5->c3 = colorFromHex(0x080000);
+	a5->colorPos1 = 240;
+	a5->colorVel2 = 0.20f;
+	strips[5].addActivity(a5);
+
+	//strip 6
+	for (int i = 0; i < 2; i++)
 	{
 		a1 = new Activity1();
-		a1->sizes = (const int[]){5, 10, 20, 50, 0};
+		a1->sizes = (const int[]){5, 10, 20, 40, 0};
 		a1->speeds = (const int[]){15, 30, 60, 100, 0};
 		a1->coolDown = 1.0f;
-		strips[5].addActivity(a1);
+		strips[6].addActivity(a1);
 	}
 	a5 = new Activity5();
 	a5->size = 10;
@@ -121,17 +133,10 @@ extern "C" int main(void)
 	a5->c1 = colorFromHex(0xffffff);
 	a5->c2 = colorFromHex(0xff0000);
 	a5->c3 = colorFromHex(0x080000);
-	a5->colorPos1 = 300;
+	a5->colorPos1 = 200;
 	a5->colorVel2 = 0.20f;
-	strips[5].addActivity(a5);
+	strips[6].addActivity(a5);
 	
-	//strip 6
-	a1 = new Activity1();
-	a1->sizes = (const int[]){5, 10, 25, 0};
-	a1->speeds = (const int[]){15, 30, 60, 100, 130, 150, 0};
-	a1->coolDown = 1.0f;
-	strips[6].addActivity(a1);
-
 	//strip 7
 	a2 = new Activity2();
 	a2->sizes = (const int[]){20, 35, 0};
