@@ -14,9 +14,13 @@ void Activity5::init()
 {
 	Activity::init();
 	
+	//time = dist / avg vel
 	//T = 2P / (Vi + Vf)
+	
+	//acc = delta vel / time
 	//A = (Vf - Vi) * (Vi + Vf) / 2P
-	acc = (endVel - startVel) * (startVel + endVel) / (2.0f * (float)colorPos1);
+	
+	acc = (endVel - startVel) * (startVel + endVel) / (2.0f * (float)stopPos);
 }
 
 //
@@ -36,6 +40,7 @@ void Activity5::update(float elapsed)
 	{
 		case 0: update0(elapsed); break;
 		case 1: update1(elapsed); break;
+		case 2: update2(elapsed); break;
 	}
 }
 
@@ -43,7 +48,7 @@ void Activity5::update(float elapsed)
 void Activity5::update0(float elapsed)
 {
 	//grab integer position
-	colorT = (float)pos / (float)colorPos1;
+	colorT = (float)pos / (float)stopPos;
 	
 	colorF_t color = lerpColorF(&c1, &c2, colorT);
 
@@ -62,7 +67,7 @@ void Activity5::update0(float elapsed)
 	pos += (float)dir * averageVel * elapsed;
 
 	//done
-	if (pos > colorPos1)
+	if (pos > stopPos)
 	{
 		colorT = 0.0f;
 		state++;
@@ -72,11 +77,35 @@ void Activity5::update0(float elapsed)
 //
 void Activity5::update1(float elapsed)
 {
-	colorT += colorVel2 * elapsed;
-	if (colorT > 1.0f)
+	colorT += colorVel3 * elapsed;
+	if (colorT > 1.0f || colorVel3 == 0.0f)
 		colorT = 1.0f;
 	
 	colorF_t color = lerpColorF(&c2, &c3, colorT);
+
+	int i, p;
+	for (i = 0, p = pos; i < size && p >=0 && p < strip->length; i++, p -= dir)
+	{
+		uint8_t c = map(i, 0, size - 1, FULL_BRIGHT, 1);
+		setPixel(strip->pixels + p, (float)c * color.r, (float)c * color.g, (float)c * color.b);
+	}
+	
+	//done
+	if (colorT == 1.0f)
+	{
+		colorT = 0.0f;
+		state++;
+	}
+}
+
+//
+void Activity5::update2(float elapsed)
+{
+	colorT += colorVel4 * elapsed;
+	if (colorT > 1.0f || colorVel4 == 0.0f)
+		colorT = 1.0f;
+	
+	colorF_t color = lerpColorF(&c3, &c4, colorT);
 
 	int i, p;
 	for (i = 0, p = pos; i < size && p >=0 && p < strip->length; i++, p -= dir)

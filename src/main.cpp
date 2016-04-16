@@ -80,28 +80,43 @@ extern "C" int main(void)
 	//strip 1
 	a1 = new Activity1();
 	a1->sizes = (const int[]){5, 10, 20, 50, 0};
-	a1->speeds = (const int[]){15, 30, 60, 100, 0};
+	a1->speeds = (const int[]){30, 60, 100, 150, 0};
 	a1->coolDown = 1.0f;
 	strips[1].addActivity(a1);
 
 	//strip 2
 	a1 = new Activity1();
 	a1->sizes = (const int[]){5, 10, 20, 40, 0};
-	a1->speeds = (const int[]){15, 30, 60, 100, 0};
+	a1->speeds = (const int[]){30, 60, 100, 120, 0};
 	a1->coolDown = 1.0f;
 	strips[2].addActivity(a1);
 
 	//strip 3
-	a1 = new Activity1();
-	a1->sizes = (const int[]){5, 10, 20, 40, 0};
-	a1->speeds = (const int[]){15, 30, 60, 100, 0};
-	a1->coolDown = 1.0f;
-	strips[3].addActivity(a1);
-
+	for (int i = 0; i < 2; i++)
+	{
+		a1 = new Activity1();
+		a1->sizes = (const int[]){5, 10, 20, 40, 0};
+		a1->speeds = (const int[]){30, 60, 100, 125, 0};
+		a1->coolDown = 1.0f;
+		strips[3].addActivity(a1);
+	}
+	a5 = new Activity5();
+	a5->size = 10;
+	a5->startVel = 60.0f;
+	a5->endVel = 6.0f;
+	a5->c1 = colorFromHex(0xffffff);
+	a5->c2 = colorFromHex(0xff0000);
+	a5->c3 = colorFromHex(0xff4040);
+	a5->colorVel3 = 2.0f;
+	a5->c4 = colorFromHex(0x080000);
+	a5->colorVel4 = 0.20f;
+	a5->stopPos = 180;
+	strips[3].addActivity(a5);
+	
 	//strip 4
 	a1 = new Activity1();
 	a1->sizes = (const int[]){5, 10, 20, 50, 0};
-	a1->speeds = (const int[]){15, 30, 60, 100, 0};
+	a1->speeds = (const int[]){30, 60, 100, 155, 0};
 	a1->coolDown = 1.0f;
 	strips[4].addActivity(a1);
 
@@ -113,8 +128,10 @@ extern "C" int main(void)
 	a5->c1 = colorFromHex(0xffffff);
 	a5->c2 = colorFromHex(0xff0000);
 	a5->c3 = colorFromHex(0x080000);
-	a5->colorPos1 = 240;
-	a5->colorVel2 = 0.20f;
+	a5->colorVel3 = 0.20f;
+	a5->c4 = colorFromHex(0x080000);
+	a5->colorVel4 = 0.0f;
+	a5->stopPos = 240;
 	strips[5].addActivity(a5);
 
 	//strip 6
@@ -133,14 +150,16 @@ extern "C" int main(void)
 	a5->c1 = colorFromHex(0xffffff);
 	a5->c2 = colorFromHex(0xff0000);
 	a5->c3 = colorFromHex(0x080000);
-	a5->colorPos1 = 200;
-	a5->colorVel2 = 0.20f;
+	a5->colorVel3 = 0.20f;
+	a5->c4 = colorFromHex(0x080000);
+	a5->colorVel4 = 0.0f;
+	a5->stopPos = 200;
 	strips[6].addActivity(a5);
 	
 	//strip 7
 	a2 = new Activity2();
 	a2->sizes = (const int[]){20, 35, 0};
-	a2->speeds = (const int[]){40, 50, 60, 0};
+	a2->speeds = (const int[]){40, 50, 60, 100, 0};
 	a2->coolDown = 1.0f;
 	strips[7].addActivity(a2);
 

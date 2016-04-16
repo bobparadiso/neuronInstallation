@@ -11,9 +11,9 @@ public:
 	int size;
 	float startVel;
 	float endVel;
-	colorF_t c1, c2, c3;
-	int colorPos1;
-	float colorVel2;
+	colorF_t c1, c2, c3, c4;
+	int stopPos;
+	float colorVel3, colorVel4;
 
 	//state
 	float pos;
@@ -28,6 +28,7 @@ public:
 	virtual void update(float elapsed);
 	void update0(float elapsed);
 	void update1(float elapsed);
+	void update2(float elapsed);
 };
 
 #endif
